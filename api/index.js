@@ -16,7 +16,7 @@ const {
 const allowedOrigins = ['http://localhost:8080'];
 const options = {
   origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin)) {
+    if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Origin not allowed'));
