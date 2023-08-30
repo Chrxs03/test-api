@@ -3,8 +3,9 @@ const routerApi = require('./routes/index');
 const cors = require('cors');
 
 const app = express();
-const IP = '172.16.30.13';
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+app.use(express.json());
 
 const {
   logErrors,
@@ -12,7 +13,7 @@ const {
   boomErrorHandler,
 } = require('./middlewares/error.handler');
 
-const allowedOrigins = [`http://${IP}:3000`, 'http://localhost:8080'];
+const allowedOrigins = ['http://localhost:8080'];
 const options = {
   origin: (origin, callback) => {
     if (allowedOrigins.includes(origin)) {
@@ -23,7 +24,6 @@ const options = {
   },
 };
 
-app.use(express.json());
 app.use(cors(options));
 
 app.get('/api', (req, res) => {
@@ -40,4 +40,6 @@ app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
-app.listen(port, () => {});
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
